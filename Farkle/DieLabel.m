@@ -8,24 +8,32 @@
 
 #import "DieLabel.h"
 
+@interface DieLabel ()
+@property UILabel *dieLabel;
+@property BOOL isPicked;
+@end
+
 @implementation DieLabel
 
-- (id)initWithFrame:(CGRect)frame
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
+    self = [super initWithCoder:aDecoder];
+    if (self)
+    {
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTapped:)];
+        [self addGestureRecognizer:tap];
     }
     return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+- (void)roll
 {
-    // Drawing code
+    int random = arc4random_uniform(6) + 1;
+    self.text = [NSString stringWithFormat:@"%d", random];
 }
-*/
 
+- (IBAction)onTapped:(id)sender
+{
+    [self.delegate didChooseDie:self];
+}
 @end
